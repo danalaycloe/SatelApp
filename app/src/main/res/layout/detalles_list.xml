@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/productDetailLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Fondo espacial -->
+    <ImageView
+        android:id="@+id/detailBackgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/espaciofondo"
+        android:scaleType="centerCrop" />
+
+    <!-- Capa oscura -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#33000000" />
+
+    <!-- Para poder hacer scroll si la descripción es larga -->
+    <ScrollView
+        android:id="@+id/detailScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/detailContentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
+            <!-- Imagen del satélite o misión -->
+            <ImageView
+                android:id="@+id/detailImage"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:src="@drawable/espaciofondo"
+                android:scaleType="centerCrop" />
+
+            <!-- Nombre del elemento -->
+            <TextView
+                android:id="@+id/detailName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="HISPASAT 30W-6"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Tarjeta de información -->
+            <LinearLayout
+                android:id="@+id/detailCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/detail_card_background">
+
+                <TextView
+                    android:id="@+id/detailType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="📡 Tipo: Comunicaciones"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:id="@+id/detailAgency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🏢 Agencia: Hispasat"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:id="@+id/detailCountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🌍 País: España"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:id="@+id/detailYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="📅 Año: 2018"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Para satélite será Órbita; para misión será Objetivo -->
+                <TextView
+                    android:id="@+id/detailOrbitOrObjective"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🛰️ Órbita: Órbita geoestacionaria (GEO)"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:id="@+id/detailStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="✅ Estado: Activo"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView
+                    android:id="@+id/detailDescriptionTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Descripción:"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/detailDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Aquí irá la descripción del satélite o misión seleccionada."
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:lineSpacingExtra="3dp"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView
+                    android:id="@+id/detailCuriosityTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dato curioso:"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/detailCuriosity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Aquí irá el dato curioso del elemento seleccionado."
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:lineSpacingExtra="3dp"
+                    android:layout_marginBottom="18dp" />
+
+                <Button
+                    android:id="@+id/favoriteButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:background="@drawable/favorite_button_background"
+                    android:text="Añadir a favoritos"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>
