@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import es.ulpgc.eite.da.advmasterdetail.R;
-import es.ulpgc.eite.da.advmasterdetail.data.CategoryItem;
 import es.ulpgc.eite.da.advmasterdetail.data.ProductItem;
 import es.ulpgc.eite.da.advmasterdetail.product.ProductDetailActivity;
 
@@ -26,7 +25,7 @@ public class ProductListActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_product_list);
+    setContentView(R.layout.satelites_list);
     setTitle(R.string.title_product_list);
 
     // do the setup
@@ -71,7 +70,7 @@ public class ProductListActivity
       presenter.selectedProductData(item);
     });
 
-    RecyclerView recyclerView = findViewById(R.id.product_recycler);
+    RecyclerView recyclerView = findViewById(R.id.category_recycler);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     recyclerView.setAdapter(listAdapter);
   }

@@ -26,6 +26,13 @@ public class ProductItem {
   public String content;
   public String details;
   public String picture;
+  public String type;
+  public String agency;
+  public String country;
+  public int year;
+  public String orbit;
+  public String status;
+  public String curiosity;
 
   @ColumnInfo(name = "category_id")
   public int categoryId;

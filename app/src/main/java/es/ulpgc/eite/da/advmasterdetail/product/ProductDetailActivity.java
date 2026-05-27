@@ -1,15 +1,11 @@
 package es.ulpgc.eite.da.advmasterdetail.product;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
@@ -19,7 +15,6 @@ import com.bumptech.glide.request.RequestOptions;
 
 import es.ulpgc.eite.da.advmasterdetail.R;
 import es.ulpgc.eite.da.advmasterdetail.data.ProductItem;
-import es.ulpgc.eite.da.advmasterdetail.products.ProductListActivity;
 
 
 public class ProductDetailActivity
@@ -32,7 +27,7 @@ public class ProductDetailActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_product_detail);
+    setContentView(R.layout.home);
     setTitle(R.string.title_product_detail);
 
     // do the setup
@@ -76,9 +71,9 @@ public class ProductDetailActivity
 
     if (product != null) {
 
-      ((TextView) findViewById(R.id.product_detail)).setText(product.details);
+      ((TextView) findViewById(R.id.detailDescription)).setText(product.details);
       loadImageFromURL(
-          (ImageView) findViewById(R.id.product_image),
+          (ImageView) findViewById(R.id.detailImage),
           product.picture
       );
 

@@ -51,7 +51,7 @@ public class CategoryListAdapter
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.item_category, parent, false);
+        .inflate(R.layout.maestro_list, parent, false);
     return new ViewHolder(view);
   }
 

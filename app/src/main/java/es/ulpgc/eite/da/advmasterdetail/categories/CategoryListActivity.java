@@ -26,7 +26,7 @@ public class CategoryListActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_category_list);
+    setContentView(R.layout.login);
     setTitle(R.string.title_category_list);
 
     // do the setup
@@ -59,6 +59,7 @@ public class CategoryListActivity
     });
 
     RecyclerView recyclerView = findViewById(R.id.category_recycler);
+
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     recyclerView.setAdapter(listAdapter);
   }
