@@ -27,7 +27,7 @@ public class ProductDetailActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.home);
+    setContentView(R.layout.detalles_list);
     setTitle(R.string.title_product_detail);
 
     // do the setup
@@ -62,23 +62,47 @@ public class ProductDetailActivity
     super.onDestroy();
   }
 
-  @Override
-  public void displayProductDetailData(ProductDetailViewModel viewModel) {
-    Log.e(TAG, "displayProductDetailData");
+    @Override
+    public void displayProductDetailData(ProductDetailViewModel viewModel) {
+        Log.e(TAG, "displayProductDetailData");
 
-    // deal with the data
-    ProductItem product = viewModel.product;
+        ProductItem product = viewModel.product;
 
-    if (product != null) {
+        if (product != null) {
 
-      ((TextView) findViewById(R.id.detailDescription)).setText(product.details);
-      loadImageFromURL(
-          (ImageView) findViewById(R.id.detailImage),
-          product.picture
-      );
+            ((TextView) findViewById(R.id.detailName))
+                    .setText(product.content);
 
+            ((TextView) findViewById(R.id.detailType))
+                    .setText("📡 Tipo: " + product.type);
+
+            ((TextView) findViewById(R.id.detailAgency))
+                    .setText("🏢 Agencia: " + product.agency);
+
+            ((TextView) findViewById(R.id.detailCountry))
+                    .setText("🌍 País: " + product.country);
+
+            ((TextView) findViewById(R.id.detailYear))
+                    .setText("📅 Año: " + product.year);
+
+            ((TextView) findViewById(R.id.detailOrbitOrObjective))
+                    .setText("🛰️ Órbita / objetivo: " + product.orbit);
+
+            ((TextView) findViewById(R.id.detailStatus))
+                    .setText("✅ Estado: " + product.status);
+
+            ((TextView) findViewById(R.id.detailDescription))
+                    .setText(product.details);
+
+            ((TextView) findViewById(R.id.detailCuriosity))
+                    .setText(product.curiosity);
+
+            loadImageFromURL(
+                    (ImageView) findViewById(R.id.detailImage),
+                    product.picture
+            );
+        }
     }
-  }
 
   private void loadImageFromURL(ImageView imageView, String imageUrl){
     RequestManager reqManager = Glide.with(imageView.getContext());
