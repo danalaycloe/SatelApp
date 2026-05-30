@@ -85,6 +85,15 @@
             android:textColor="#2F80FF"
             android:textStyle="bold"
             android:textSize="14sp" />
+        <TextView
+            android:id="@+id/invitadoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            android:text="Entrar como invitado."
+            android:textColor="#80FFFFFF"
+            android:textStyle="bold"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
