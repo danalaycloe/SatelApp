@@ -21,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Button loginButton = findViewById(R.id.loginButton);
         TextView registerText = findViewById(R.id.registerText);
+        TextView invitadoText = findViewById(R.id.invitadoText);
 
         loginButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, HomeActivity.class);
@@ -29,6 +30,11 @@ public class LoginActivity extends AppCompatActivity {
 
         registerText.setOnClickListener(view -> {
             Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
+        });
+
+        invitadoText.setOnClickListener(view -> {
+            Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
         });
     }
