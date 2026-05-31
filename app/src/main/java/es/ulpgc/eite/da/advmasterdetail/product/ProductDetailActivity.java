@@ -97,21 +97,25 @@ public class ProductDetailActivity
             ((TextView) findViewById(R.id.detailCuriosity))
                     .setText(product.curiosity);
 
-            loadImageFromURL(
+            loadImageFromDrawable(
                     (ImageView) findViewById(R.id.detailImage),
                     product.picture
             );
         }
     }
 
-  private void loadImageFromURL(ImageView imageView, String imageUrl){
-    RequestManager reqManager = Glide.with(imageView.getContext());
-    RequestBuilder reqBuilder = reqManager.load(imageUrl);
-    RequestOptions reqOptions = new RequestOptions();
-    reqOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
-    reqBuilder.apply(reqOptions);
-    reqBuilder.into(imageView);
-  }
+    private void loadImageFromDrawable(ImageView imageView, String imageName) {
+
+        int imageId = getResources().getIdentifier(
+                imageName,
+                "drawable",
+                getPackageName()
+        );
+
+        if (imageId != 0) {
+            imageView.setImageResource(imageId);
+        }
+    }
 
 
   @Override

@@ -70,7 +70,7 @@ public class ProductListActivity
       presenter.selectedProductData(item);
     });
 
-    RecyclerView recyclerView = findViewById(R.id.category_recycler);
+    RecyclerView recyclerView = findViewById(R.id.product_recycler);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     recyclerView.setAdapter(listAdapter);
   }

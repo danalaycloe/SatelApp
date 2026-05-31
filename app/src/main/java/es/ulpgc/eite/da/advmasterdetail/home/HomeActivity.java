@@ -7,26 +7,47 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.ulpgc.eite.da.advmasterdetail.R;
-import es.ulpgc.eite.da.advmasterdetail.categories.CategoryListActivity;
+import es.ulpgc.eite.da.advmasterdetail.app.CatalogMediator;
+import es.ulpgc.eite.da.advmasterdetail.data.CategoryItem;
+import es.ulpgc.eite.da.advmasterdetail.products.ProductListActivity;
+import es.ulpgc.eite.da.advmasterdetail.data.CatalogRepository;
+import es.ulpgc.eite.da.advmasterdetail.data.RepositoryContract;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private CatalogMediator mediator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.home);
+        RepositoryContract repository = CatalogRepository.getInstance(this);
+        repository.loadCatalog(false, error -> {
+        });
+
+        mediator = CatalogMediator.getInstance();
 
         Button satellitesButton = findViewById(R.id.communicationsButton);
         Button missionsButton = findViewById(R.id.missionsButton);
 
         satellitesButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, CategoryListActivity.class);
+            CategoryItem category = new CategoryItem();
+            category.id = 1;
+            category.content = "Satélites";
+            mediator.setCategory(category);
+
+            Intent intent = new Intent(this, ProductListActivity.class);
             startActivity(intent);
         });
 
         missionsButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, CategoryListActivity.class);
+            CategoryItem category = new CategoryItem();
+            category.id = 2;
+            category.content = "Misiones";
+            mediator.setCategory(category);
+
+            Intent intent = new Intent(this, ProductListActivity.class);
             startActivity(intent);
         });
     }
