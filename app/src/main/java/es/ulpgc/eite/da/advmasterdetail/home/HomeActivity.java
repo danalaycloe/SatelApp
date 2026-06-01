@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import es.ulpgc.eite.da.advmasterdetail.R;
 import es.ulpgc.eite.da.advmasterdetail.app.CatalogMediator;
 import es.ulpgc.eite.da.advmasterdetail.data.CategoryItem;
+import es.ulpgc.eite.da.advmasterdetail.favorites.FavoriteActivity;
 import es.ulpgc.eite.da.advmasterdetail.products.ProductListActivity;
 import es.ulpgc.eite.da.advmasterdetail.data.CatalogRepository;
 import es.ulpgc.eite.da.advmasterdetail.data.RepositoryContract;
@@ -30,6 +31,13 @@ public class HomeActivity extends AppCompatActivity {
 
         Button satellitesButton = findViewById(R.id.communicationsButton);
         Button missionsButton = findViewById(R.id.missionsButton);
+        Button favoritesButton = findViewById(R.id.favoritesButton);
+
+        favoritesButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, FavoriteActivity.class);
+            startActivity(intent);
+        });
+
 
         satellitesButton.setOnClickListener(view -> {
             CategoryItem category = new CategoryItem();

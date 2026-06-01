@@ -45,6 +45,9 @@
         <activity
             android:name=".product.ProductDetailActivity"
             android:exported="false" />
+        <activity
+            android:name=".favorites.FavoriteActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

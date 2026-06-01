@@ -8,7 +8,7 @@ import es.ulpgc.eite.da.advmasterdetail.data.ProductItem;
 
 
 @Database(entities = {CategoryItem.class, ProductItem.class ,UserEntity.class,
-        FavoriteEntity.class}, version = 2)
+        FavoriteEntity.class}, version = 3)
 public abstract class CatalogDatabase extends RoomDatabase {
 
   public abstract CategoryDao categoryDao();

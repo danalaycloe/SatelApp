@@ -49,12 +49,17 @@ public class LoginActivity extends AppCompatActivity {
 
             if(user != null){
 
-                Toast.makeText(this, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show();//Muestra un mensaje de inicio de sesión correcto
+                getSharedPreferences("session", MODE_PRIVATE)
+                        .edit()
+                        .putBoolean("isLoggedIn", true)
+                        .putInt("userId", user.id)
+                        .apply();
+
+                Toast.makeText(this, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(this, HomeActivity.class);
 
                 startActivity(intent);
-
             } else {
 
                 Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();//Muestra un mensaje de eeror de inicio de sesión
@@ -69,6 +74,12 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         invitadoText.setOnClickListener(view -> {
+
+            getSharedPreferences("session", MODE_PRIVATE)
+                    .edit()
+                    .putBoolean("isLoggedIn", false)
+                    .putInt("userId", -1)
+                    .apply();
 
             Intent intent = new Intent(this, HomeActivity.class);
 
