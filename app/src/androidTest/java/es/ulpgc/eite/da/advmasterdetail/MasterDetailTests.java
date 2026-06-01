@@ -1,193 +1,227 @@
 package es.ulpgc.eite.da.advmasterdetail;
 
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static org.hamcrest.Matchers.allOf;
+import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 
-import android.content.pm.ActivityInfo;
-import android.content.res.Resources;
-import android.os.RemoteException;
-import android.view.View;
-
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
-import androidx.test.uiautomator.UiDevice;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import es.ulpgc.eite.da.advmasterdetail.categories.CategoryListActivity;
-
+import es.ulpgc.eite.da.advmasterdetail.login.LoginActivity;
 
 @SuppressWarnings("ALL")
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class MasterDetailTests {
 
-  @Rule
-  public ActivityTestRule<CategoryListActivity> testRule =
-      new ActivityTestRule<>(CategoryListActivity.class);
+    @Rule
+    public ActivityTestRule<LoginActivity> testRule =
+            new ActivityTestRule<>(LoginActivity.class);
 
-
-
-  private void rotate() {
-
-    CategoryListActivity activity = testRule.getActivity();
-    int orientation = activity.getRequestedOrientation();
-
-    if(orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-      orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-
-    } else {
-      orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+    private void waitForData() {
+        try {
+            Thread.sleep(1200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    activity.setRequestedOrientation(orientation);
+    @Test
+    public void test01GuestCanOpenSatellitesAndDetail() {
 
-    try {
+        onView(withId(R.id.invitadoText)).perform(click());
 
-      UiDevice device = UiDevice.getInstance(getInstrumentation());
+        waitForData();
 
-      if(orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-        device.setOrientationNatural();
+        onView(withId(R.id.communicationsButton)).perform(click());
 
-      } else {
-        device.setOrientationLeft();
-      }
+        waitForData();
 
-    } catch (RemoteException e) {
+        onView(new RecyclerViewMatcher(R.id.product_recycler).atPositionOnView(0, R.id.product_name)).check(matches(withText("Starlink")));
+
+        ViewInteraction starlink = onView(new RecyclerViewMatcher(R.id.product_recycler).atPositionOnView(0, R.id.product_name));
+
+        starlink.perform(click());
+
+        waitForData();
+
+        onView(withId(R.id.detailName))
+                .check(matches(withText("Starlink")));
+
+        onView(withId(R.id.detailAgency)).check(matches(withText("🏢 Agencia: SpaceX")));
+
+        pressBack();
+
+        waitForData();
+
+        onView(new RecyclerViewMatcher(R.id.product_recycler).atPositionOnView(1, R.id.product_name)).check(matches(withText("METEOSAT-11")));
     }
 
-  }
+    @Test
+    public void test02GuestCanOpenMissionsAndDetail() {
 
+        onView(withId(R.id.invitadoText)).perform(click());
 
-  @Test
-  public void appTest() {
+        waitForData();
 
-    rotate();
+        onView(withId(R.id.missionsButton)).perform(click());
 
-    onView(new RecyclerViewMatcher(R.id.category_recycler)
-        .atPositionOnView(0, R.id.category_name))
-        .check(matches(withText("Tenerife")));
+        waitForData();
 
-    // Scroll to the item at the specific position
-    onView(withId(R.id.category_recycler))
-        .perform(RecyclerViewActions.scrollToPosition(5));
+        onView(new RecyclerViewMatcher(R.id.product_recycler).atPositionOnView(0, R.id.product_name)).check(matches(withText("Apollo 11")));
 
-    onView(new RecyclerViewMatcher(R.id.category_recycler)
-        .atPositionOnView(5, R.id.category_name))
-        .check(matches(withText("La Gomera")));
+        ViewInteraction apollo =
+                onView(new RecyclerViewMatcher(R.id.product_recycler).atPositionOnView(0, R.id.product_name));
 
+        apollo.perform(click());
 
-    ViewInteraction recyclerView1 =
-        onView(new RecyclerViewMatcher(R.id.category_recycler)
-            .atPositionOnView(2, R.id.category_name))
-            .check(matches(withText("Gran Canaria")));
-    recyclerView1.perform(click());
+        waitForData();
 
-    rotate();
+        onView(withId(R.id.detailName)).check(matches(withText("Apollo 11")));
 
-    onView(new RecyclerViewMatcher(R.id.product_recycler)
-        .atPositionOnView(0, R.id.product_name))
-        .check(matches(withText("Beaches of Gran Canaria")));
+        pressBack();
 
-    onView(new RecyclerViewMatcher(R.id.product_recycler)
-        .atPositionOnView(1, R.id.product_name))
-        .check(matches(withText("Las Palmas de Gran Canaria")));
+        waitForData();
 
+        onView(new RecyclerViewMatcher(R.id.product_recycler).atPositionOnView(1, R.id.product_name)).check(matches(withText("Artemis I")));
+    }
 
-    pressBack();
+    @Test
+    public void test03GuestCannotAccessFavorites() {
 
-    rotate();
+        onView(withId(R.id.invitadoText)).perform(click());
 
-    onView(new RecyclerViewMatcher(R.id.category_recycler)
-        .atPositionOnView(0, R.id.category_name))
-        .check(matches(withText("Tenerife")));
+        waitForData();
 
-    // Scroll to the item at the specific position
-    onView(withId(R.id.category_recycler))
-        .perform(RecyclerViewActions.scrollToPosition(4));
+        onView(withId(R.id.favoritesButton)).perform(click());
 
-    ViewInteraction recyclerView2 =
-        onView(new RecyclerViewMatcher(R.id.category_recycler)
-            .atPositionOnView(4, R.id.category_name))
-            .check(matches(withText("La Palma")));
-    recyclerView2.perform(click());
+        waitForData();
 
-    rotate();
+        onView(withId(R.id.homeTitle))
+                .check(matches(withText("Descubre los\nsatélites que orbitan\nnuestro planeta")));
+    }
+    @Test
+    public void test04RegisterWithDifferentPasswords() {
 
-    onView(new RecyclerViewMatcher(R.id.product_recycler)
-        .atPositionOnView(1, R.id.product_name))
-        .check(matches(withText("Santa Cruz de la Palma")));
+        onView(withId(R.id.registerText)).perform(click());
 
-    ViewInteraction recyclerView3 =
+        waitForData();
+
+        onView(withId(R.id.registerUsernameInput))
+                .perform(replaceText("usuarioTest"), closeSoftKeyboard());
+
+        onView(withId(R.id.registerPasswordInput))
+                .perform(replaceText("1234"), closeSoftKeyboard());
+
+        onView(withId(R.id.registerConfirmPasswordInput))
+                .perform(replaceText("9999"), closeSoftKeyboard());
+
+        onView(withId(R.id.registerButton)).perform(click());
+
+        waitForData();
+
+        onView(withId(R.id.registerTitle))
+                .check(matches(withText("Crear\nCuenta")));
+    }
+
+    @Test
+    public void test05RegisterCorrectly() {
+
+        onView(withId(R.id.registerText)).perform(click());
+
+        waitForData();
+
+        onView(withId(R.id.registerUsernameInput))
+                .perform(replaceText("david123"), closeSoftKeyboard());
+
+        onView(withId(R.id.registerPasswordInput))
+                .perform(replaceText("1234"), closeSoftKeyboard());
+
+        onView(withId(R.id.registerConfirmPasswordInput))
+                .perform(replaceText("1234"), closeSoftKeyboard());
+
+        onView(withId(R.id.registerButton)).perform(click());
+
+        waitForData();
+
+        onView(withId(R.id.loginButton))
+                .check(matches(withText("Iniciar Sesión")));
+    }
+
+    @Test
+    public void test06LoginIncorrect() {
+
+        onView(withId(R.id.usernameInput))
+                .perform(replaceText("usuarioFake"), closeSoftKeyboard());
+
+        onView(withId(R.id.passwordInput))
+                .perform(replaceText("mal"), closeSoftKeyboard());
+
+        onView(withId(R.id.loginButton)).perform(click());
+
+        waitForData();
+
+        onView(withId(R.id.loginTitle))
+                .check(matches(withText("Bienvenido a\nSatelApp")));
+    }
+
+    @Test
+    public void test07LoginCorrect() {
+
+        onView(withId(R.id.usernameInput))
+                .perform(replaceText("david123"), closeSoftKeyboard());
+
+        onView(withId(R.id.passwordInput))
+                .perform(replaceText("1234"), closeSoftKeyboard());
+
+        onView(withId(R.id.loginButton)).perform(click());
+
+        waitForData();
+
+        onView(withId(R.id.homeTitle))
+                .check(matches(withText("Descubre los\nsatélites que orbitan\nnuestro planeta")));
+    }
+
+    @Test
+    public void test08LoggedUserCanAddFavorite() {
+
+        onView(withId(R.id.usernameInput))
+                .perform(replaceText("david123"), closeSoftKeyboard());
+
+        onView(withId(R.id.passwordInput))
+                .perform(replaceText("1234"), closeSoftKeyboard());
+
+        onView(withId(R.id.loginButton)).perform(click());
+
+        waitForData();
+
+        onView(withId(R.id.communicationsButton)).perform(click());
+
+        waitForData();
+
         onView(new RecyclerViewMatcher(R.id.product_recycler)
-          .atPositionOnView(0, R.id.product_name))
-          .check(matches(withText("Caldera de Taburiente National Park")));
-    recyclerView3.perform(click());
+                .atPositionOnView(0, R.id.product_name))
+                .perform(click());
 
-    rotate();
+        waitForData();
 
-    ViewInteraction textView15 = onView(allOf(
-        withId(R.id.product_detail),
-        isDisplayed()
-    ));
-    textView15.check(matches(withText(
-        "Known as the Isla Bonita (Beautiful Island), " +
-        "La Palma is the greenest of the Canary Islands. " +
-        "Designated a UNESCO Biosphere Reserve, " +
-        "La Palma's landscape varies from pristine forests " +
-        "to sheer cliffs and black-sand beaches. " +
-        "Among its many protected environments is " +
-        "the Caldera de Taburiente National Park, " +
-        "where volcanic peaks rise to 2,400 meters, " +
-        "and lava flows descend to the sea. " +
-        "For those in search of idyllic surroundings, " +
-        "the park has wooded areas with streams and waterfalls. " +
-        "Along the rocky coastline, picturesque little bays " +
-        "are hidden away in between steep hillsides."
-    )));
+        onView(withId(R.id.favoriteButton)).perform(click());
 
+        waitForData();
 
-    pressBack();
-
-    rotate();
-
-    onView(new RecyclerViewMatcher(R.id.product_recycler)
-        .atPositionOnView(1, R.id.product_name))
-        .check(matches(withText("Santa Cruz de la Palma")));
-
-    pressBack();
-
-    rotate();
-
-    onView(new RecyclerViewMatcher(R.id.category_recycler)
-        .atPositionOnView(0, R.id.category_name))
-        .check(matches(withText("Tenerife")));
-
-    // Scroll to the item at the specific position
-    onView(withId(R.id.category_recycler))
-        .perform(RecyclerViewActions.scrollToPosition(5));
-
-    onView(new RecyclerViewMatcher(R.id.category_recycler)
-        .atPositionOnView(5, R.id.category_name))
-        .check(matches(withText("La Gomera")));
-  }
-
-
+        onView(withId(R.id.favoriteButton))
+                .check(matches(withText("Quitar de favoritos")));
+    }
 }
