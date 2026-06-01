@@ -20,10 +20,10 @@
         android:id="@+id/product_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="22dp"
-        android:paddingEnd="22dp"
-        android:paddingTop="32dp"
-        android:paddingBottom="32dp"
+        android:paddingStart="28dp"
+        android:paddingEnd="28dp"
+        android:paddingTop="42dp"
+        android:paddingBottom="42dp"
         android:clipToPadding="false" />
 
 </FrameLayout>

@@ -30,7 +30,7 @@
             android:id="@+id/favoritesTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mis Favoritos ❤️"
+            android:text="Mis Favoritos ☄️"
             android:textColor="#FFFFFF"
             android:textSize="28sp"
             android:textStyle="bold"

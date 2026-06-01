@@ -12,11 +12,11 @@
         android:src="@drawable/espaciofondo"
         android:scaleType="centerCrop" />
 
-    <!-- Oscurecer ligeramente -->
+    <!-- Oscurecer -->
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#22000000" />
+        android:background="#33000000" />
 
     <!-- Contenido -->
     <LinearLayout
@@ -24,50 +24,116 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
-        android:paddingStart="26dp"
-        android:paddingEnd="26dp">
+        android:gravity="center_horizontal"
+        android:paddingStart="28dp"
+        android:paddingEnd="28dp"
+        android:paddingTop="70dp"
+        android:paddingBottom="28dp">
 
-        <!-- Campo usuario -->
+        <!-- Título -->
+        <TextView
+            android:id="@+id/registerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crear\nCuenta"
+            android:textColor="#F8FFFFFF"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:lineSpacingExtra="2dp" />
+
+        <!-- Subtítulo -->
+        <TextView
+            android:id="@+id/registerSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guarda tus satélites y misiones favoritas"
+            android:textColor="#CCFFFFFF"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="85dp" />
+
+        <!-- Usuario -->
         <EditText
             android:id="@+id/registerUsernameInput"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="12dp"
             android:background="#88FFFFFF"
             android:gravity="center"
             android:hint="Nombre de Usuario"
             android:inputType="text"
             android:textColor="#FFFFFF"
             android:textColorHint="#FFFFFF"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
-        <!-- Campo contraseña -->
+        <!-- Contraseña -->
         <EditText
             android:id="@+id/registerPasswordInput"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="12dp"
             android:background="#88FFFFFF"
             android:gravity="center"
             android:hint="Contraseña"
             android:inputType="textPassword"
             android:textColor="#FFFFFF"
             android:textColorHint="#FFFFFF"
-            android:textSize="18sp"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Confirmar contraseña -->
+        <EditText
+            android:id="@+id/registerConfirmPasswordInput"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="18dp"
+            android:background="#88FFFFFF"
+            android:gravity="center"
+            android:hint="Confirmar contraseña"
+            android:inputType="textPassword"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <!-- Botón -->
         <Button
             android:id="@+id/registerButton"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="50dp"
             android:backgroundTint="#3E73F1"
             android:text="Registrarse"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Espacio flexible -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Volver -->
+        <TextView
+            android:id="@+id/alreadyAccountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿Ya tienes cuenta?"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/loginText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inicia sesión"
+            android:textColor="#2F80FF"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
     </LinearLayout>

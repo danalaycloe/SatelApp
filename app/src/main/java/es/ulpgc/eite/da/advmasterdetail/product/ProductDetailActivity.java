@@ -128,7 +128,18 @@ public class ProductDetailActivity
         int userId = getSharedPreferences("session", MODE_PRIVATE).getInt("userId", -1);
 
         if (!isLoggedIn) {
-            favoriteButton.setVisibility(View.GONE);
+
+            favoriteButton.setText("Añadir a favoritos");
+
+            favoriteButton.setOnClickListener(view -> {
+
+                Toast.makeText(
+                        this,
+                        "Si quieres añadir algo a favoritos, inicia sesión",
+                        Toast.LENGTH_SHORT
+                ).show();
+            });
+
             return;
         }
 

@@ -3,6 +3,7 @@ package es.ulpgc.eite.da.advmasterdetail.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,6 +35,21 @@ public class HomeActivity extends AppCompatActivity {
         Button favoritesButton = findViewById(R.id.favoritesButton);
 
         favoritesButton.setOnClickListener(view -> {
+
+            boolean isLoggedIn = getSharedPreferences("session", MODE_PRIVATE)
+                    .getBoolean("isLoggedIn", false);
+
+            if(!isLoggedIn){
+
+                Toast.makeText(
+                        this,
+                        "Si quieres acceder a favoritos, inicia sesión",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                return;
+            }
+
             Intent intent = new Intent(this, FavoriteActivity.class);
             startActivity(intent);
         });

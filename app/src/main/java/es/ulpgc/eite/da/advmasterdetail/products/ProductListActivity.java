@@ -65,9 +65,7 @@ public class ProductListActivity
 
   private void initProductListContainer() {
 
-    listAdapter = new ProductListAdapter(view -> {
-      ProductItem item = (ProductItem) view.getTag();
-      presenter.selectedProductData(item);
+    listAdapter = new ProductListAdapter(view -> {ProductItem item = (ProductItem) view.getTag();presenter.selectedProductData(item);
     });
 
     RecyclerView recyclerView = findViewById(R.id.product_recycler);
