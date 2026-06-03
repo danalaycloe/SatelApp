@@ -8,16 +8,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
+
+import java.lang.ref.WeakReference;
 
 import es.ulpgc.eite.da.advmasterdetail.R;
-import es.ulpgc.eite.da.advmasterdetail.database.CatalogDatabase;
-import es.ulpgc.eite.da.advmasterdetail.database.UserEntity;
+import es.ulpgc.eite.da.advmasterdetail.app.CatalogMediator;
 import es.ulpgc.eite.da.advmasterdetail.login.LoginActivity;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements RegisterContract.View {
 
-    private CatalogDatabase database;
+    private RegisterContract.Presenter presenter;
+
+    private EditText usernameInput;
+    private EditText passwordInput;
+    private EditText confirmPasswordInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,72 +29,89 @@ public class RegisterActivity extends AppCompatActivity {
 
         setContentView(R.layout.register);
 
-        database = Room.databaseBuilder(getApplicationContext(), CatalogDatabase.class, "catalog.db").allowMainThreadQueries().build();//Abre el Room
-
-        EditText usernameInput = findViewById(R.id.registerUsernameInput);//lee lo que se ha escrito en el campo de texto
-
-        EditText passwordInput = findViewById(R.id.registerPasswordInput);
-
-        EditText confirmPasswordInput = findViewById(R.id.registerConfirmPasswordInput);
+        usernameInput = findViewById(R.id.registerUsernameInput);//lee lo que se ha escrito en el campo de texto
+        passwordInput = findViewById(R.id.registerPasswordInput);
+        confirmPasswordInput = findViewById(R.id.registerConfirmPasswordInput);
 
         Button registerButton = findViewById(R.id.registerButton);
-
         TextView loginText = findViewById(R.id.loginText);
+
+        presenter = new RegisterPresenter(CatalogMediator.getInstance());
+        presenter.injectView(new WeakReference<>(this));
+        presenter.injectModel(new RegisterModel(getApplicationContext()));
+
+        if(savedInstanceState == null){
+            presenter.onCreateCalled();
+        } else {
+            presenter.onRecreateCalled();
+        }
 
         registerButton.setOnClickListener(view -> {
 
-            String username = usernameInput.getText().toString();
+            presenter.updateData(
+                    usernameInput.getText().toString(),
+                    passwordInput.getText().toString(),
+                    confirmPasswordInput.getText().toString()
+            );
 
-            String password = passwordInput.getText().toString();
-
-            String confirmPassword = confirmPasswordInput.getText().toString();
-
-            if(username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()){
-
-                Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
-
-                return;
-            }
-
-            if(!password.equals(confirmPassword)){
-
-                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
-
-                return;
-            }
-
-            UserEntity existingUser = database.userDao().getUserByUsername(username);
-
-            if(existingUser != null){
-
-                Toast.makeText(this, "Ese usuario ya existe", Toast.LENGTH_SHORT).show();
-
-                return;
-            }
-
-            UserEntity user = new UserEntity(); //Crea un nuevo usuario
-
-            user.username = username;
-            user.password = password;
-
-            database.userDao().insertUser(user);//Guarda el usuario en la tabla de datos de users
-
-            Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show();
-
-            Intent intent = new Intent(this, LoginActivity.class);
-
-            startActivity(intent);
-
-            finish();
+            presenter.onRegisterClicked();
         });
 
         loginText.setOnClickListener(view -> {
-
-            Intent intent = new Intent(this, LoginActivity.class);
-
-            startActivity(intent);
-
-            finish();
+            presenter.onLoginClicked();
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        presenter.updateData(
+                usernameInput.getText().toString(),
+                passwordInput.getText().toString(),
+                confirmPasswordInput.getText().toString()
+        );
+
+        presenter.onPauseCalled();
+    }
+
+    @Override
+    public void displayRegisterData(RegisterViewModel viewModel) {
+        usernameInput.setText(viewModel.username);
+        passwordInput.setText(viewModel.password);
+        confirmPasswordInput.setText(viewModel.confirmPassword);
+    }
+
+    @Override
+    public void navigateToLogin() {
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void showEmptyFieldsError() {
+        Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showDifferentPasswordsError() {
+        Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showUserAlreadyExistsError() {
+        Toast.makeText(this, "Ese usuario ya existe", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showRegisterSuccess() {
+        Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void injectPresenter(RegisterContract.Presenter presenter) {
+        this.presenter = presenter;
     }
 }
