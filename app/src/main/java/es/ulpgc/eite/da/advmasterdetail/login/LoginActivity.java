@@ -8,17 +8,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
+
+import java.lang.ref.WeakReference;
 
 import es.ulpgc.eite.da.advmasterdetail.R;
-import es.ulpgc.eite.da.advmasterdetail.database.CatalogDatabase;
+import es.ulpgc.eite.da.advmasterdetail.app.CatalogMediator;
 import es.ulpgc.eite.da.advmasterdetail.database.UserEntity;
 import es.ulpgc.eite.da.advmasterdetail.home.HomeActivity;
 import es.ulpgc.eite.da.advmasterdetail.register.RegisterActivity;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 
-    private CatalogDatabase database;
+    private LoginContract.Presenter presenter;
+
+    private EditText usernameInput;
+    private EditText passwordInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,64 +30,89 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.login);
 
-        database = Room.databaseBuilder(getApplicationContext(), CatalogDatabase.class, "catalog.db").allowMainThreadQueries().build(); //Abre el Room
-
-        //ahora lee lo que se ha escrito en el campo de texto
-        EditText usernameInput = findViewById(R.id.usernameInput);
-
-        EditText passwordInput = findViewById(R.id.passwordInput);
+        usernameInput = findViewById(R.id.usernameInput);
+        passwordInput = findViewById(R.id.passwordInput);
 
         Button loginButton = findViewById(R.id.loginButton);
-
         TextView registerText = findViewById(R.id.registerText);
-
         TextView invitadoText = findViewById(R.id.invitadoText);
 
+        presenter = new LoginPresenter(CatalogMediator.getInstance());
+        presenter.injectView(new WeakReference<>(this));
+        presenter.injectModel(new LoginModel(getApplicationContext()));
+
+        if(savedInstanceState == null){
+            presenter.onCreateCalled();
+        } else {
+            presenter.onRecreateCalled();
+        }
+
         loginButton.setOnClickListener(view -> {
+            presenter.updateData(usernameInput.getText().toString(), passwordInput.getText().toString());
 
-            String username = usernameInput.getText().toString();
-
-            String password =passwordInput.getText().toString();
-
-            UserEntity user = database.userDao().login(username, password);
-
-            if(user != null){
-
-                getSharedPreferences("session", MODE_PRIVATE)
-                        .edit()
-                        .putBoolean("isLoggedIn", true)
-                        .putInt("userId", user.id)
-                        .apply();
-
-                Toast.makeText(this, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(this, HomeActivity.class);
-
-                startActivity(intent);
-            } else {
-
-                Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();//Muestra un mensaje de eeror de inicio de sesión
-            }
+            presenter.onLoginClicked();
         });
 
         registerText.setOnClickListener(view -> {
-
-            Intent intent = new Intent(this, RegisterActivity.class);
-
-            startActivity(intent);
+            presenter.onRegisterClicked();
         });
 
         invitadoText.setOnClickListener(view -> {
-
-            getSharedPreferences("session", MODE_PRIVATE)
-                    .edit()
-                    .putBoolean("isLoggedIn", false)
-                    .putInt("userId", -1)
-                    .apply();
-
-            Intent intent = new Intent(this, HomeActivity.class);
-
-            startActivity(intent);
+            presenter.onGuestClicked();
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        presenter.updateData(usernameInput.getText().toString(), passwordInput.getText().toString());
+
+        presenter.onPauseCalled();
+    }
+
+    @Override
+    public void displayLoginData(LoginViewModel viewModel) {
+
+        usernameInput.setText(viewModel.username);
+        passwordInput.setText(viewModel.password);
+    }
+
+    @Override
+    public void navigateToHome(UserEntity user) {
+
+        getSharedPreferences("session", MODE_PRIVATE).edit().putBoolean("isLoggedIn", true).putInt("userId", user.id).apply();
+
+        Toast.makeText(this, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void navigateToHomeAsGuest() {
+
+        getSharedPreferences("session", MODE_PRIVATE).edit().putBoolean("isLoggedIn", false).putInt("userId", -1).apply();
+
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void navigateToRegister() {
+
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showLoginError() {
+
+        Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void injectPresenter(LoginContract.Presenter presenter) {
+        this.presenter = presenter;
     }
 }

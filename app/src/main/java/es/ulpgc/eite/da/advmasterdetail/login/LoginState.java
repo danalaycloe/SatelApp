@@ -1,4 +1,4 @@
 package es.ulpgc.eite.da.advmasterdetail.login;
 
-public class LoginState {
+public class LoginState extends LoginViewModel{
 }

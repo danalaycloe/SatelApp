@@ -11,6 +11,7 @@ public class CatalogMediator {
 //  private CategoryListState categoryListState = new CategoryListState();
 //  private ProductListState productListState = new ProductListState();
 //  private ProductDetailState productDetailState = new ProductDetailState();
+  private es.ulpgc.eite.da.advmasterdetail.login.LoginState loginState;
 
   private CategoryListState categoryListState;
   private ProductListState productListState;
@@ -38,6 +39,14 @@ public class CatalogMediator {
     return INSTANCE;
   }
 
+
+  public void setLoginState(es.ulpgc.eite.da.advmasterdetail.login.LoginState state) {
+        loginState = state;
+    }
+
+    public es.ulpgc.eite.da.advmasterdetail.login.LoginState getLoginState() {
+        return loginState;
+    }
 
   public CategoryListState getCategoryListState() {
     return categoryListState;
