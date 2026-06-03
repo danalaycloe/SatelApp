@@ -1,4 +1,4 @@
 package es.ulpgc.eite.da.advmasterdetail.home;
 
-public class HomeState {
+public class HomeState extends HomeViewModel {
 }

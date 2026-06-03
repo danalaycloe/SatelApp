@@ -18,92 +18,96 @@
         android:layout_height="match_parent"
         android:background="#22000000" />
 
-    <!-- Contenido -->
-    <LinearLayout
-        android:id="@+id/homeContent"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="40dp"
-        android:paddingBottom="20dp">
+        android:fillViewport="true">
 
-        <!-- Título -->
-        <TextView
-            android:id="@+id/homeTitle"
-            android:layout_width="wrap_content"
+        <!-- Contenido -->
+        <LinearLayout
+            android:id="@+id/homeContent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:lineSpacingExtra="3dp"
-            android:text="Descubre los\nsatélites que orbitan\nnuestro planeta"
-            android:textColor="#EEFFFFFF"
-            android:textSize="34sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="40dp"
+            android:paddingBottom="20dp">
 
-        <!-- Subtítulo -->
-        <TextView
-            android:id="@+id/homeSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="24dp"
-            android:text="Explora el espacio desde tu móvil"
-            android:textColor="#AAFFFFFF"
-            android:textSize="16sp" />
+            <!-- Título -->
+            <TextView
+                android:id="@+id/homeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:lineSpacingExtra="3dp"
+                android:text="Descubre los\nsatélites que orbitan\nnuestro planeta"
+                android:textColor="#EEFFFFFF"
+                android:textSize="34sp"
+                android:textStyle="bold" />
 
-        <!-- Satélite central -->
-        <ImageView
-            android:id="@+id/satelliteImage"
-            android:layout_width="170dp"
-            android:layout_height="170dp"
-            android:layout_marginBottom="30dp"
-            android:src="@drawable/satelite"
-            android:scaleType="fitCenter" />
+            <!-- Subtítulo -->
+            <TextView
+                android:id="@+id/homeSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
+                android:text="Explora el espacio desde tu móvil"
+                android:textColor="#AAFFFFFF"
+                android:textSize="16sp" />
 
-        <!-- Botón comunicaciones -->
-        <Button
-            android:id="@+id/communicationsButton"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/category_button_background"
-            android:text="🛰️ Explorar satélites"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="19sp" />
+            <!-- Satélite central -->
+            <ImageView
+                android:id="@+id/satelliteImage"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_marginBottom="30dp"
+                android:src="@drawable/satelite"
+                android:scaleType="fitCenter" />
 
+            <!-- Botón comunicaciones -->
+            <Button
+                android:id="@+id/communicationsButton"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/category_button_background"
+                android:text="🛰️ Explorar satélites"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="19sp" />
 
-        <!-- Botón misiones -->
-        <Button
-            android:id="@+id/missionsButton"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/category_button_background"
-            android:text="🚀 Misiones importantes"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="19sp" />
+            <!-- Botón misiones -->
+            <Button
+                android:id="@+id/missionsButton"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/category_button_background"
+                android:text="🚀 Misiones importantes"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="19sp" />
 
-        <!-- Espacio flexible -->
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="120dp" />
 
-        <!-- Favoritos -->
-        <Button
-            android:id="@+id/favoritesButton"
-            android:layout_width="110dp"
-            android:layout_height="36dp"
-            android:background="@drawable/favorite_button_background"
-            android:text="Favoritos"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="12sp" />
+            <!-- Favoritos -->
+            <Button
+                android:id="@+id/favoritesButton"
+                android:layout_width="110dp"
+                android:layout_height="36dp"
+                android:background="@drawable/favorite_button_background"
+                android:text="Favoritos"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>

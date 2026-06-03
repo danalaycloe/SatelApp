@@ -16,6 +16,8 @@ public class CatalogMediator {
   private es.ulpgc.eite.da.advmasterdetail.register.RegisterState registerState;
 
   private es.ulpgc.eite.da.advmasterdetail.favorites.FavoriteState favoriteState;
+  private es.ulpgc.eite.da.advmasterdetail.home.HomeState homeState;
+
 
 
   private CategoryListState categoryListState;
@@ -65,6 +67,13 @@ public class CatalogMediator {
     }
     public es.ulpgc.eite.da.advmasterdetail.favorites.FavoriteState getFavoriteState() {
         return favoriteState;
+    }
+    public void setHomeState(es.ulpgc.eite.da.advmasterdetail.home.HomeState state) {
+        homeState = state;
+    }
+
+    public es.ulpgc.eite.da.advmasterdetail.home.HomeState getHomeState() {
+        return homeState;
     }
 
 
