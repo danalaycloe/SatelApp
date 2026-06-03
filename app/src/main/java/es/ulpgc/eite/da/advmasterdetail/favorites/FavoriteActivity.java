@@ -6,26 +6,19 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.ref.WeakReference;
 
 import es.ulpgc.eite.da.advmasterdetail.R;
 import es.ulpgc.eite.da.advmasterdetail.app.CatalogMediator;
 import es.ulpgc.eite.da.advmasterdetail.data.ProductItem;
-import es.ulpgc.eite.da.advmasterdetail.database.CatalogDatabase;
-import es.ulpgc.eite.da.advmasterdetail.database.FavoriteEntity;
 import es.ulpgc.eite.da.advmasterdetail.product.ProductDetailActivity;
 import es.ulpgc.eite.da.advmasterdetail.products.ProductListAdapter;
 
-public class FavoriteActivity extends AppCompatActivity {
+public class FavoriteActivity extends AppCompatActivity implements FavoriteContract.View {
 
-    private CatalogDatabase database;
-
+    private FavoriteContract.Presenter presenter;
     private ProductListAdapter adapter;
-
-    private CatalogMediator mediator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +26,39 @@ public class FavoriteActivity extends AppCompatActivity {
 
         setContentView(R.layout.favoritos);
 
-        mediator = CatalogMediator.getInstance();
+        presenter = new FavoritePresenter(CatalogMediator.getInstance());
+        presenter.injectView(new WeakReference<>(this));
+        presenter.injectModel(new FavoriteModel(getApplicationContext()));
 
-        database = Room.databaseBuilder(
-                getApplicationContext(),
-                CatalogDatabase.class,
-                "catalog.db"
-        ).allowMainThreadQueries().build();
+        initFavoriteList();
+
+        if(savedInstanceState == null){
+            presenter.onCreateCalled();
+        } else {
+            presenter.onRecreateCalled();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        int userId = getSharedPreferences(
+                "session",
+                MODE_PRIVATE
+        ).getInt("userId", -1);
+
+        presenter.fetchFavoriteData(userId);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        presenter.onPauseCalled();
+    }
+
+    private void initFavoriteList() {
 
         RecyclerView recyclerView =
                 findViewById(R.id.favoritesRecyclerView);
@@ -48,12 +67,7 @@ public class FavoriteActivity extends AppCompatActivity {
 
             ProductItem item = (ProductItem) view.getTag();
 
-            mediator.setProduct(item);
-
-            Intent intent =
-                    new Intent(this, ProductDetailActivity.class);
-
-            startActivity(intent);
+            presenter.selectedProductData(item);
         });
 
         recyclerView.setLayoutManager(
@@ -61,32 +75,23 @@ public class FavoriteActivity extends AppCompatActivity {
         );
 
         recyclerView.setAdapter(adapter);
-
-        loadFavorites();
     }
 
-    private void loadFavorites() {
+    @Override
+    public void displayFavoriteData(FavoriteViewModel viewModel) {
+        adapter.setItems(viewModel.products);
+    }
 
-        int userId = getSharedPreferences(
-                "session",
-                MODE_PRIVATE
-        ).getInt("userId", -1);
+    @Override
+    public void navigateToProductDetailScreen() {
+        Intent intent =
+                new Intent(this, ProductDetailActivity.class);
 
-        List<FavoriteEntity> favorites =
-                database.favoriteDao().getFavoritesByUser(userId);
+        startActivity(intent);
+    }
 
-        List<ProductItem> products = new ArrayList<>();
-
-        for(FavoriteEntity favorite : favorites){
-
-            ProductItem product =
-                    database.productDao().loadProduct(favorite.productId);
-
-            if(product != null){
-                products.add(product);
-            }
-        }
-
-        adapter.setItems(products);
+    @Override
+    public void injectPresenter(FavoriteContract.Presenter presenter) {
+        this.presenter = presenter;
     }
 }

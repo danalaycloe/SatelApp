@@ -13,7 +13,9 @@ public class CatalogMediator {
 //  private ProductDetailState productDetailState = new ProductDetailState();
   private es.ulpgc.eite.da.advmasterdetail.login.LoginState loginState;
 
-    private es.ulpgc.eite.da.advmasterdetail.register.RegisterState registerState;
+  private es.ulpgc.eite.da.advmasterdetail.register.RegisterState registerState;
+
+  private es.ulpgc.eite.da.advmasterdetail.favorites.FavoriteState favoriteState;
 
 
   private CategoryListState categoryListState;
@@ -58,6 +60,13 @@ public class CatalogMediator {
     public es.ulpgc.eite.da.advmasterdetail.register.RegisterState getRegisterState() {
         return registerState;
     }
+    public void setFavoriteState(es.ulpgc.eite.da.advmasterdetail.favorites.FavoriteState state) {
+        favoriteState = state;
+    }
+    public es.ulpgc.eite.da.advmasterdetail.favorites.FavoriteState getFavoriteState() {
+        return favoriteState;
+    }
+
 
   public CategoryListState getCategoryListState() {
     return categoryListState;
