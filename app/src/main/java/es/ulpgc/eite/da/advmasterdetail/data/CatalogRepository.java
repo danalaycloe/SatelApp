@@ -60,10 +60,14 @@ public class CatalogRepository implements RepositoryContract {
     @Override
     public void loadCatalog(final boolean clearFirst, final FetchCatalogDataCallback callback) {
         AsyncTask.execute(() -> {
+            Log.e(TAG, "Comprobando si la base de datos ya tiene datos");
             boolean error = false;
 
             if (getCategoryDao().loadCategories().isEmpty()) {
+                Log.e(TAG, "BD vacía: se carga el JSON por primera vez"); //hacemos un logcat para poder comprobar si el JSON se carga por primera vez
                 error = !loadCatalogFromJSON(loadJSONFromAsset());
+            }else{
+                Log.e(TAG, "BD ya tiene datos: NO se vuelve a cargar el JSON");
             }
 
             if (callback != null) {
