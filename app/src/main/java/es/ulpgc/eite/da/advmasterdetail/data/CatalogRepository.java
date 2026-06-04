@@ -57,26 +57,20 @@ public class CatalogRepository implements RepositoryContract {
 
   }
 
-  @Override
-  public void loadCatalog(
-      final boolean clearFirst, final FetchCatalogDataCallback callback) {
+    @Override
+    public void loadCatalog(final boolean clearFirst, final FetchCatalogDataCallback callback) {
+        AsyncTask.execute(() -> {
+            boolean error = false;
 
-    AsyncTask.execute(() -> {
-      if(clearFirst) {
-        database.clearAllTables();
-      }
+            if (getCategoryDao().loadCategories().isEmpty()) {
+                error = !loadCatalogFromJSON(loadJSONFromAsset());
+            }
 
-      boolean error = false;
-      if(getCategoryDao().loadCategories().size() == 0 ) {
-        error = !loadCatalogFromJSON(loadJSONFromAsset());
-      }
-
-      if(callback != null) {
-        callback.onCatalogDataFetched(error);
-      }
-    });
-
-  }
+            if (callback != null) {
+                callback.onCatalogDataFetched(error);
+            }
+        });
+    }
 
   @Override
   public void getProductList(

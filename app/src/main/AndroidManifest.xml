@@ -35,10 +35,6 @@
             android:exported="false" />
 
         <activity
-            android:name=".categories.CategoryListActivity"
-            android:exported="false" />
-
-        <activity
             android:name=".products.ProductListActivity"
             android:exported="false" />
 
