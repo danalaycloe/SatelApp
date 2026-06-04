@@ -85,11 +85,9 @@ public class CatalogMediator {
     return productListState;
   }
 
-  public ProductItem getProduct() {
-    ProductItem item = product;
-    //product = null;
-    return item;
-  }
+    public ProductItem getProduct() {
+        return product;
+    }
 
 
   public void setProduct(ProductItem item) {

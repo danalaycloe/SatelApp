@@ -37,6 +37,37 @@ public class MasterDetailTests {
             e.printStackTrace();
         }
     }
+    private void registerUser(String username, String password) {
+
+        onView(withId(R.id.registerText)).perform(click());
+
+        waitForData();
+
+        onView(withId(R.id.registerUsernameInput))
+                .perform(replaceText(username), closeSoftKeyboard());
+
+        onView(withId(R.id.registerPasswordInput))
+                .perform(replaceText(password), closeSoftKeyboard());
+
+        onView(withId(R.id.registerConfirmPasswordInput))
+                .perform(replaceText(password), closeSoftKeyboard());
+
+        onView(withId(R.id.registerButton)).perform(click());
+
+        waitForData();
+    }
+    private void loginUser(String username, String password) {
+
+        onView(withId(R.id.usernameInput))
+                .perform(replaceText(username), closeSoftKeyboard());
+
+        onView(withId(R.id.passwordInput))
+                .perform(replaceText(password), closeSoftKeyboard());
+
+        onView(withId(R.id.loginButton)).perform(click());
+
+        waitForData();
+    }
 
     @Test
     public void test01GuestCanOpenSatellitesAndDetail() {
@@ -144,7 +175,7 @@ public class MasterDetailTests {
         waitForData();
 
         onView(withId(R.id.registerUsernameInput))
-                .perform(replaceText("david123"), closeSoftKeyboard());
+                .perform(replaceText("daniela123"), closeSoftKeyboard());
 
         onView(withId(R.id.registerPasswordInput))
                 .perform(replaceText("1234"), closeSoftKeyboard());
@@ -180,15 +211,9 @@ public class MasterDetailTests {
     @Test
     public void test07LoginCorrect() {
 
-        onView(withId(R.id.usernameInput))
-                .perform(replaceText("david123"), closeSoftKeyboard());
+        registerUser("usuarioLoginCorrecto", "1234");
 
-        onView(withId(R.id.passwordInput))
-                .perform(replaceText("1234"), closeSoftKeyboard());
-
-        onView(withId(R.id.loginButton)).perform(click());
-
-        waitForData();
+        loginUser("usuarioLoginCorrecto", "1234");
 
         onView(withId(R.id.homeTitle))
                 .check(matches(withText("Descubre los\nsatélites que orbitan\nnuestro planeta")));
@@ -197,19 +222,17 @@ public class MasterDetailTests {
     @Test
     public void test08LoggedUserCanAddFavorite() {
 
-        onView(withId(R.id.usernameInput)).perform(replaceText("david123"), closeSoftKeyboard());
+        registerUser("usuarioFavoritoAdd", "1234");
 
-        onView(withId(R.id.passwordInput)).perform(replaceText("1234"), closeSoftKeyboard());
-
-        onView(withId(R.id.loginButton)).perform(click());
-
-        waitForData();
+        loginUser("usuarioFavoritoAdd", "1234");
 
         onView(withId(R.id.communicationsButton)).perform(click());
 
         waitForData();
 
-        onView(new RecyclerViewMatcher(R.id.product_recycler).atPositionOnView(0, R.id.product_name)).perform(click());
+        onView(new RecyclerViewMatcher(R.id.product_recycler)
+                .atPositionOnView(0, R.id.product_name))
+                .perform(click());
 
         waitForData();
 
@@ -217,7 +240,39 @@ public class MasterDetailTests {
 
         waitForData();
 
-        onView(withId(R.id.favoriteButton)).check(matches(withText("Quitar de favoritos")));
+        onView(withId(R.id.favoriteButton))
+                .check(matches(withText("Quitar de favoritos")));
+    }
+    @Test
+    public void test09LoggedUserCanRemoveFavorite() {
+
+        registerUser("usuarioFavoritoRemove", "1234");
+
+        loginUser("usuarioFavoritoRemove", "1234");
+
+        onView(withId(R.id.communicationsButton)).perform(click());
+
+        waitForData();
+
+        onView(new RecyclerViewMatcher(R.id.product_recycler)
+                .atPositionOnView(0, R.id.product_name))
+                .perform(click());
+
+        waitForData();
+
+        onView(withId(R.id.favoriteButton)).perform(click());
+
+        waitForData();
+
+        onView(withId(R.id.favoriteButton))
+                .check(matches(withText("Quitar de favoritos")));
+
+        onView(withId(R.id.favoriteButton)).perform(click());
+
+        waitForData();
+
+        onView(withId(R.id.favoriteButton))
+                .check(matches(withText("Añadir a favoritos")));
     }
     private void rotateScreen() {
 
@@ -233,7 +288,7 @@ public class MasterDetailTests {
         waitForData();
     }
     @Test
-    public void test09RotationKeepsLoginData() {
+    public void  test10RotationKeepsLoginData() {
 
         onView(withId(R.id.usernameInput)).perform(replaceText("Daniela"), closeSoftKeyboard());
 
@@ -246,7 +301,7 @@ public class MasterDetailTests {
         onView(withId(R.id.passwordInput)).check(matches(withText("1234")));
     }
     @Test
-    public void test10RotationKeepsRegisterData() {
+    public void  test11RotationKeepsRegisterData() {
 
         onView(withId(R.id.registerText)).perform(click());
 
@@ -273,7 +328,7 @@ public class MasterDetailTests {
                 .check(matches(withText("1234")));
     }
     @Test
-    public void test11RotationKeepsDetailData() {
+    public void test12RotationKeepsDetailData() {
 
         onView(withId(R.id.invitadoText)).perform(click());
 
